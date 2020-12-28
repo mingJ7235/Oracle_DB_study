@@ -77,11 +77,21 @@ SELECT ename || '의 직급은 ' || job || '입니다.' as 직급 from emp;
 
 ----where절 조건절
 select * from emp;
-
 select *from emp where sal >=500;
-
 SELECT * FROM emp WHERE deptno =10;
 
+---문자검색
 SELECT * FROM emp WHERE ename ='한예슬';
+
+---날짜검색 (2005년 1월 1일 이전에 입사한 사람 조회하고 싶을때)
+SELECT * FROM emp WHERE hiredate < TO_DATE('2005/01/01', 'yyyy/mm/dd');
+--문자형이 날짜화가 되어서 비교가 가능해진다 
+SELECT * FROM emp WHERE hiredate >= TO_DATE('2005/01/01', 'yyyy/mm/dd');
+
+--부서번호가 10이고 직급이 과장인 사람 (and, or, not)
+SELECT * FROM emp WHERE deptno = 10 AND job ='과장';
+--or, not 연습
+SELECT * FROM emp WHERE deptno = 10 or job ='과장';
+SELECT * FROM emp WHERE not deptno = 10 or job ='과장';
 
 
