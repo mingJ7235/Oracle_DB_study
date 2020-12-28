@@ -1,9 +1,9 @@
---ºÎ¼­ Å×ÀÌºí »ý¼ºÇÏ±â
+--ë¶€ì„œ í…Œì´ë¸” ìƒì„±í•˜ê¸°
 CREATE TABLE dept ( deptno NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY,
                     dname VARCHAR2(14),
                     loc VARCHAR2(13));
 
---»ç¿øÅ×ÀÌºí »ý¼ºÇÏ±â
+--ì‚¬ì›í…Œì´ë¸” ìƒì„±í•˜ê¸°
 CREATE TABLE emp ( empno number(4) CONSTRAINT PK_EMP PRIMARY KEY,
                     ename varchar2(10),
                     job varchar2(9),
@@ -12,35 +12,35 @@ CREATE TABLE emp ( empno number(4) CONSTRAINT PK_EMP PRIMARY KEY,
                     sal number(7,2),
                     comm number (7,2),
                     deptno number (2) CONSTRAINT FK_DEPTNO REFERENCES DEPT );
---±Þ¿© Å×ÀÌºí »ý¼ºÇÏ±â
---gread µî±Þ, losal±Þ¿© ÇÏÇÑ°¡ hisal  ±Ý±Þ¿© »óÇÑ°ª
+--ê¸‰ì—¬ í…Œì´ë¸” ìƒì„±í•˜ê¸°
+--gread ë“±ê¸‰, losalê¸‰ì—¬ í•˜í•œê°€ hisal  ê¸ˆê¸‰ì—¬ ìƒí•œê°’
 CREATE TABLE salgrade ( grade number, losal number, hisal number);
 
---»ç¿ø Å×ÀÌºí¿¡ »ùÇÃ µ¥ÀÌÅÍ ³Ö±â
-INSERT INTO dept (deptno, dname, loc) VALUES (10, '°æ¸®ºÎ', '¼­¿ï');
-INSERT INTO dept (deptno, dname, loc) VALUES (20, 'ÀÎ»çºÎ', 'ÀÎÃµ');
-INSERT INTO dept VALUES (30, '¿µ¾÷ºÎ', '¿ëÀÎ');
-INSERT INTO dept VALUES (40, 'Àü»êºÎ', '¼ö¿ø');
+--ì‚¬ì› í…Œì´ë¸”ì— ìƒ˜í”Œ ë°ì´í„° ë„£ê¸°
+INSERT INTO dept (deptno, dname, loc) VALUES (10, 'ê²½ë¦¬ë¶€', 'ì„œìš¸');
+INSERT INTO dept (deptno, dname, loc) VALUES (20, 'ì¸ì‚¬ë¶€', 'ì¸ì²œ');
+INSERT INTO dept VALUES (30, 'ì˜ì—…ë¶€', 'ìš©ì¸');
+INSERT INTO dept VALUES (40, 'ì „ì‚°ë¶€', 'ìˆ˜ì›');
 
 
---»ç¿ø Å×ÀÌºí ¾È¿¡ ÀÖ´Â ·¹ÄÚµå(Çà)À» °Ë»öÇÏ±â
+--ì‚¬ì› í…Œì´ë¸” ì•ˆì— ìžˆëŠ” ë ˆì½”ë“œ(í–‰)ì„ ê²€ìƒ‰í•˜ê¸°
 SELECT * FROM dept;
 
---»ç¿ø Å×ÀÌºí ÀÚ·á »ðÀÔÇÏ±â
-INSERT INTO emp VALUES(1001, '±è»ç¶û', '»ç¿ø', 1013, to_date('2007-03-01','yyyy-mm-dd'), 3000, NULL, 20);
-INSERT INTO EMP VALUES(1002, 'ÇÑ¿¹½½', '´ë¸®', 1005, to_date('2007-04-02','yyyy-mm-dd'), 250,   80, 30);
-INSERT INTO EMP VALUES(1003, '¿ÀÁöÈ£', '°úÀå', 1005, to_date('2005-02-10','yyyy-mm-dd'), 500,  100, 30);
-INSERT INTO EMP VALUES(1004, 'ÀÌº´Çå', 'ºÎÀå', 1008, to_date('2003-09-02','yyyy-mm-dd'), 600, NULL, 20);
-INSERT INTO EMP VALUES(1005, '½Åµ¿Çù', '°úÀå', 1005, to_date('2005-04-07','yyyy-mm-dd'), 450,  200, 30);
-INSERT INTO EMP VALUES(1006, 'Àåµ¿°Ç', 'ºÎÀå', 1008, to_date('2003-10-09','yyyy-mm-dd'), 480, NULL, 30);
-INSERT INTO EMP VALUES(1007, 'ÀÌ¹®¼¼', 'ºÎÀå', 1008, to_date('2004-01-08','yyyy-mm-dd'), 520, NULL, 10);
-INSERT INTO EMP VALUES(1008, '°¨¿ì¼º', 'Â÷Àå', 1003, to_date('2004-03-08','yyyy-mm-dd'), 500,    0, 30);
-INSERT INTO EMP VALUES(1009, '¾È¼º±â', '»çÀå', NULL, to_date('1996-10-04','yyyy-mm-dd'),1000, NULL, 20);
-INSERT INTO EMP VALUES(1010, 'ÀÌº´Çå', '°úÀå', 1003, to_date('2005-04-07','yyyy-mm-dd'), 500, NULL, 10);
-INSERT INTO EMP VALUES(1011, 'Á¶Çâ±â', '»ç¿ø', 1007, to_date('2007-03-01','yyyy-mm-dd'), 280, NULL, 30);
-INSERT INTO EMP VALUES(1012, '°­ÇýÁ¤', '»ç¿ø', 1006, to_date('2007-08-09','yyyy-mm-dd'), 300, NULL, 20);
-INSERT INTO EMP VALUES(1013, '¹ÚÁßÈÆ', 'ºÎÀå', 1003, to_date('2002-10-09','yyyy-mm-dd'), 560, NULL, 20);
-INSERT INTO EMP VALUES(1015, 'Á¶ÀÎ¼º', '»ç¿ø', 1006, to_date('2007-11-09','yyyy-mm-dd'), 250, NULL, 10);
+--ì‚¬ì› í…Œì´ë¸” ìžë£Œ ì‚½ìž…í•˜ê¸°
+INSERT INTO emp VALUES(1001, 'ê¹€ì‚¬ëž‘', 'ì‚¬ì›', 1013, to_date('2007-03-01','yyyy-mm-dd'), 3000, NULL, 20);
+INSERT INTO EMP VALUES(1002, 'í•œì˜ˆìŠ¬', 'ëŒ€ë¦¬', 1005, to_date('2007-04-02','yyyy-mm-dd'), 250,   80, 30);
+INSERT INTO EMP VALUES(1003, 'ì˜¤ì§€í˜¸', 'ê³¼ìž¥', 1005, to_date('2005-02-10','yyyy-mm-dd'), 500,  100, 30);
+INSERT INTO EMP VALUES(1004, 'ì´ë³‘í—Œ', 'ë¶€ìž¥', 1008, to_date('2003-09-02','yyyy-mm-dd'), 600, NULL, 20);
+INSERT INTO EMP VALUES(1005, 'ì‹ ë™í˜‘', 'ê³¼ìž¥', 1005, to_date('2005-04-07','yyyy-mm-dd'), 450,  200, 30);
+INSERT INTO EMP VALUES(1006, 'ìž¥ë™ê±´', 'ë¶€ìž¥', 1008, to_date('2003-10-09','yyyy-mm-dd'), 480, NULL, 30);
+INSERT INTO EMP VALUES(1007, 'ì´ë¬¸ì„¸', 'ë¶€ìž¥', 1008, to_date('2004-01-08','yyyy-mm-dd'), 520, NULL, 10);
+INSERT INTO EMP VALUES(1008, 'ê°ìš°ì„±', 'ì°¨ìž¥', 1003, to_date('2004-03-08','yyyy-mm-dd'), 500,    0, 30);
+INSERT INTO EMP VALUES(1009, 'ì•ˆì„±ê¸°', 'ì‚¬ìž¥', NULL, to_date('1996-10-04','yyyy-mm-dd'),1000, NULL, 20);
+INSERT INTO EMP VALUES(1010, 'ì´ë³‘í—Œ', 'ê³¼ìž¥', 1003, to_date('2005-04-07','yyyy-mm-dd'), 500, NULL, 10);
+INSERT INTO EMP VALUES(1011, 'ì¡°í–¥ê¸°', 'ì‚¬ì›', 1007, to_date('2007-03-01','yyyy-mm-dd'), 280, NULL, 30);
+INSERT INTO EMP VALUES(1012, 'ê°•í˜œì •', 'ì‚¬ì›', 1006, to_date('2007-08-09','yyyy-mm-dd'), 300, NULL, 20);
+INSERT INTO EMP VALUES(1013, 'ë°•ì¤‘í›ˆ', 'ë¶€ìž¥', 1003, to_date('2002-10-09','yyyy-mm-dd'), 560, NULL, 20);
+INSERT INTO EMP VALUES(1015, 'ì¡°ì¸ì„±', 'ì‚¬ì›', 1006, to_date('2007-11-09','yyyy-mm-dd'), 250, NULL, 10);
 
 SELECT * from emp;
 
@@ -55,31 +55,33 @@ SELECT * from salgrade;
 
 commit;
 -----------------------------
-SELECT empno, job FROM emp WHERE job='ºÎÀå';
+SELECT empno, job FROM emp WHERE job='ë¶€ìž¥';
 SELECT DISTINCT job FROM emp;
-SELECT DISTINCT job Á÷À§ FROM emp; --ÄÃ·³ÀÇ ÀÌ¸§À» 'Á÷À§'·Î ¹Ù²Ù´Â °ÍÀÓ (as»ý·« °¡´É)
+SELECT DISTINCT job ì§ìœ„ FROM emp; --ì»¬ëŸ¼ì˜ ì´ë¦„ì„ 'ì§ìœ„'ë¡œ ë°”ê¾¸ëŠ” ê²ƒìž„ (asìƒëžµ ê°€ëŠ¥)
 
------------------------ ¿¬»ê
+----------------------- ì—°ì‚°
 SELECT sal FROM emp;
-SELECT sal as ¿ù±Þ, sal*0.03 as ¼¼±Ý FROM emp;
+SELECT sal as ì›”ê¸‰, sal*0.03 as ì„¸ê¸ˆ FROM emp;
 
-SELECT ename ÀÌ¸§, comm Ä¿¹Ì¼Ç, sal*12+comm ¿¬ºÀ, NVL(comm, 0) Ä¿¹Ì¼Ç, sal*12+NVL(comm, 0) ¿¬ºÀ FROM emp; 
---nvl (ÄÃ·³, 0) : ÄÃ·³ÀÌ nullÀÎ°æ¿ì 0À» ³Ö¾î¶ó ¶ó´Â ÀÇ¹ÌÀÓ
---null ÀÌ¶õ? 
---  null Àº 0ÀÌ ¾Æ´Ï´Ù ºó°ø°£µµ ¾Æ´Ï´Ù. ¹ÌÈ®Á¤, Áï ¾Ë¼ö ¾ø´Â °ªÀ» ÀÇ¹ÌÇÑ´Ù. value¸¦ °¡Áö´Â °ÍÀÌ´Ù!
---  ¾î¶² °ªÀÎÁö ¾Ë ¼ö ¾øÁö¸¸, ¾î¶² °ªÀÌ Á¸ÀçÇÏ´Â °ÍÀÌ´Ù. ? ¶Ç´Â ¹«ÇÑ´ë¸¦ ÀÇ¹ÌÇÑ´Ù. 
---  ¿¬»ê, ÇÒ´ç, ºñ±³°¡ ºÒ°¡´ÉÇÏ´Ù. 
+SELECT ename ì´ë¦„, comm ì»¤ë¯¸ì…˜, sal*12+comm ì—°ë´‰, NVL(comm, 0) ì»¤ë¯¸ì…˜, sal*12+NVL(comm, 0) ì—°ë´‰ FROM emp; 
+--nvl (ì»¬ëŸ¼, 0) : ì»¬ëŸ¼ì´ nullì¸ê²½ìš° 0ì„ ë„£ì–´ë¼ ë¼ëŠ” ì˜ë¯¸ìž„
+--null ì´ëž€? 
+--  null ì€ 0ì´ ì•„ë‹ˆë‹¤ ë¹ˆê³µê°„ë„ ì•„ë‹ˆë‹¤. ë¯¸í™•ì •, ì¦‰ ì•Œìˆ˜ ì—†ëŠ” ê°’ì„ ì˜ë¯¸í•œë‹¤. valueë¥¼ ê°€ì§€ëŠ” ê²ƒì´ë‹¤!
+--  ì–´ë–¤ ê°’ì¸ì§€ ì•Œ ìˆ˜ ì—†ì§€ë§Œ, ì–´ë–¤ ê°’ì´ ì¡´ìž¬í•˜ëŠ” ê²ƒì´ë‹¤. ? ë˜ëŠ” ë¬´í•œëŒ€ë¥¼ ì˜ë¯¸í•œë‹¤. 
+--  ì—°ì‚°, í• ë‹¹, ë¹„êµê°€ ë¶ˆê°€ëŠ¥í•˜ë‹¤. 
 
 ----------------------
-SELECT ename || 'ÀÇ Á÷±ÞÀº ' || job || 'ÀÔ´Ï´Ù.' as Á÷±Þ from emp;
--- ||Àº ÄÃ·³µéÀ» ¿¬°áÇÒ ¶§ ¾²´Â °ÍÀÌ´Ù. 
+SELECT ename || 'ì˜ ì§ê¸‰ì€ ' || job || 'ìž…ë‹ˆë‹¤.' as ì§ê¸‰ from emp;
+-- ||ì€ ì»¬ëŸ¼ë“¤ì„ ì—°ê²°í•  ë•Œ ì“°ëŠ” ê²ƒì´ë‹¤. 
 
 
-----whereÀý Á¶°ÇÀý
+----whereì ˆ ì¡°ê±´ì ˆ
 select * from emp;
 
 select *from emp where sal >=500;
 
 SELECT * FROM emp WHERE deptno =10;
+
+SELECT * FROM emp WHERE ename ='í•œì˜ˆìŠ¬';
 
 
