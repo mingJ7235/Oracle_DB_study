@@ -51,7 +51,30 @@ SELECT COALESCE(NULL, 'a','b','c','d') FROM dual;
 
 SELECT * FROM emp;
 
+--1. 문자 조작함수를 사용하여 특정 행만 조회
+--1) 9월에 입사한 사원을 출력해보세요 (substr)함수 사용
+SELECT *FROM emp WHERE substr(hiredate, 4,2) = '09';
 
+--2) 2003년도에 입사한 사원을 알아내보세요  (substr)함수사용
+SELECT * FROM emp WHERE substr(HIREDATE, 1,2)='03';
 
+--3) 이름이 '기로'끝나는 사람을 substr함수를 사용하여 ename 컬럼의 마지막 문자 한개만 추출해서 검색해보세요
+SELECT * FROM emp WHERE SUBSTR(ename, -1, 1) = '기'; 
 
+--4) 이름의 두번째 글자에 '동'이 있는 사원을 검색해보세요
+SELECT * FROM emp WHERE SUBSTR(ename, 2, 1) = '동';
+SELECT * FROM EMP WHERE instr(ename, '동', 2, 1)=2;
+
+--2. decode 함수를 사용하여 조건에 따른 서로 다른 결과를 구하라
+--1)직급에 따라 급여 인상 부장 5%, 과장 10%, 대리 13%, 사원 20%
+SELECT empno, ename, job, sal, decode (job, '부장', sal*1.05, 
+																		'과장', sal*1.1,
+																		'대리', sal*1.13,
+																		'사원', sal*1.2,
+																		sal) 인상금액 FROM emp ORDER BY 인상금액 ;
+--입사일 연도는 2자리 (YY), 월은 숫자 (mon) 으로 표시하고, 요일은 약어 (dy)로 지정하여 출력하시오
+select hiredate, to_char(hiredate, 'yy/mon/dd dy') from emp;
+													
+																	
+																	
 
