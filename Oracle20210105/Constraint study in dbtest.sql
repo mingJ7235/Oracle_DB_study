@@ -195,6 +195,18 @@ create table emp03 (
     
 commit;
     
+--user constraints 데이터 딕셔너리 검색
+--emp01, emp02, emp03 테이블의 제약조건 검색
+select *from user_constraints where table_name in ('EMP01', 'EMP02', 'EMP03');
+
+
+
+
+
+
+
+
+
     
     
     
