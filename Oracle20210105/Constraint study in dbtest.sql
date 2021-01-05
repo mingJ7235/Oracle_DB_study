@@ -143,6 +143,60 @@ insert into emp07 values (1010, '홍길동', 100, 'M');
 --gender 에서 위배
 insert into emp07 values (1010,'홍길동', 1000, 'K');
 
---de
+--default 제약 조건 (해당하는 컬럼에 아무런 값을 입력하지 않았을때 디폴트로 값이 입력되도록하느것)
+create table dept02 (
+    deptno number(2) constraint dept01_deptno_pk primary key,
+    dname varchar2(14),
+    loc varchar2(13) default '서울');
+
+insert into dept02 (deptno, dname) values (20, '영업부');
+select * from dept02;
+
+commit;
+
+
+--제약 조건 만드는 방식 : 1 컬럼레벨 제약 조건, 
+--2. 테이블 레벨 방식 제약 조건 (테이블 생성시 밑에 constraint를 따로 주는것) 
+-- -> 복합키, alter table로 제약조건을 나중에 추가해줄때 2번 방식을 사용한다. 
+
+drop table emp01;
+
+--컬럽 레벨 제약 조건 하여 생성
+create table emp01 (
+    empno number(4) primary key,
+    ename varchar2(10) not null,
+    job varchar2(9) unique,
+    deptno number(2) references dept(deptno));
+
+drop table emp02;
+
+--데이터 레벨 방식의 제약 조건하여 생성
+create table emp02 (
+    empno number(4),
+    ename varchar2(10) not null,
+    job varchar2 (9),
+    deptno number(2),
+    
+    constraint emp02_empno_pk primary key (empno),--constraint emp02_empno_pk는 생략가능함
+    constraint emp02_job_uk unique(job),
+    constraint emp02_deptno_fk foreign key (deptno) references dept(deptno));
+
+drop table emp03;
+
+create table emp03 (
+    empno number(4),
+    ename varchar2(10) not null,
+    job varchar2 (9),
+    deptno number(2),
+    
+    primary key (empno),--constraint emp02_empno_pk는 생략가능함
+    unique(job),
+    foreign key (deptno) references dept(deptno));   
+    
+commit;
+    
+    
+    
+    
     
     
