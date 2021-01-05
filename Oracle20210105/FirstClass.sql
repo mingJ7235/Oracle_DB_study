@@ -56,7 +56,8 @@ update dept01
     where deptno = 50;
 
 update dept01
-    set loc = '서울';
+    set loc = '부산'
+    where dname = '영업부';
     
 update dept01
     set deptno = deptno + 100;
@@ -64,8 +65,34 @@ update dept01
 --commit한 상태로 돌아감
 rollback;
 
---데이터 삭제
+--데이터 삭제 (행, 레코드, 튜플)
+delete dept01 where loc='부산';
+delete dept01 where deptno = 1020 and dname = '전산부';
 
 
 
+--문제 1
+
+create table employee03 (
+    empno number(4) not null,
+    ename varchar2(20),
+    job varchar2(20),
+    sal number(7,3));
+
+insert into employee03 values (1000, '홍길동', '사원', 100);
+insert into employee03 values (1010, '이순신', '대리', 150);
+insert into employee03 values (1020, '홍명진', '과장', 200);
+insert into employee03 values (1030, '박경미', '대리', 150);
+insert into employee03 values (1040, '김병진',  '', 50);
+insert into employee03 values (1050, '박인수', '', 35);
+
+select * from employee03
+
+update employee03 
+    set sal = sal + 50
+    where sal <200;
+
+delete employee03 where job is null;
+
+commit;
 
