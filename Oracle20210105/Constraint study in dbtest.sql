@@ -131,12 +131,18 @@ create table emp08 (
     sal number(7,2) constraint emp08_sal_ck check (sal between 500 and 5000),
     gender varchar2(1) constraint emp08_gender_ck check (gender in ('M', 'm', 'F', 'f')));
 
+select * from emp08;
+
 --정상입력
-insert into emp07 values (1010, '홍길동', 1000, 'M');
+insert into emp08 values (1010, '홍길동', 1000, 'M');
 
 --위배입력
 
+--sal에서 위배
+insert into emp07 values (1010, '홍길동', 100, 'M');
+--gender 에서 위배
+insert into emp07 values (1010,'홍길동', 1000, 'K');
 
-
+--de
     
     
