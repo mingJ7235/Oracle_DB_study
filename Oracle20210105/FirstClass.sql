@@ -86,7 +86,7 @@ insert into employee03 values (1030, '박경미', '대리', 150);
 insert into employee03 values (1040, '김병진',  '', 50);
 insert into employee03 values (1050, '박인수', '', 35);
 
-select * from employee03
+select * from employee03;
 
 update employee03 
     set sal = sal + 50
@@ -95,4 +95,22 @@ update employee03
 delete employee03 where job is null;
 
 commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

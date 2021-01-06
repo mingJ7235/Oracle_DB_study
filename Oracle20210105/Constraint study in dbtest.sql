@@ -199,12 +199,19 @@ commit;
 --emp01, emp02, emp03 테이블의 제약조건 검색
 select *from user_constraints where table_name in ('EMP01', 'EMP02', 'EMP03');
 
+--기본키를 복합키로 지정하는방법
+--이름과 전화번호를 결합하여 기본키로 지정하기
 
+create table member01 (
+    name varchar2(10),
+    address varchar2(30),
+    phone varchar2(16),
+    constraint member01_name_phone_pk primary key (name, phone) );
 
+insert into member01 values ('a', 'seoul', '123');
+insert into member01 values ('b', 'seoul', '123');
 
-
-
-
+select * from member01;
 
 
     
