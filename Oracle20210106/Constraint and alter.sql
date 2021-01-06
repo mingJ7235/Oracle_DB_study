@@ -93,7 +93,7 @@ select constraint_name, table_name, column_name from user_cons_columns where tab
 alter table emp01
     drop primary key;
 
-
+commit;
 
 
 
