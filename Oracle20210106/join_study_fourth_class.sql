@@ -37,6 +37,57 @@ select ename, sal, grade from emp, salgrade where sal between losal and hisal;
 
 insert into salgrade values (0, 0, 699);
 
+select ename, dname, sal, grade from emp e, dept d, salgrade s 
+    where e.deptno = d.deptno and e.sal between s.losal and s.hisal order by grade desc;
+
+--self join
+
+select empno, ename, mgr from emp;
+
+--출력 결과 ename, mname 
+
+select e1.ename as "사원이름", e2.ename as "메니저이름" from emp e1, emp e2 where e1.mgr = e2.empno ;
+
+
+--cross join
+select * from emp cross join dept;
+
+
+--ANSI inner join (where를 안쓰고 join 테이블 on 조건)
+select * from emp, dept where emp.deptno = dept.deptno; -- 요건 equi join
+select * from emp inner join dept on emp.deptno = dept.deptno; --inner join
+
+select ename, dname from emp, dept where emp.deptno = dept.deptno and ename = '이문세';
+select ename, dname from emp inner join dept on emp.deptno = dept.deptno and ename = '이문세';
+
+
+--ANSI outer join 
+
+select * from emp;
+select * from dept;
+
+select *from emp full outer join dept on emp.deptno = dept.deptno;
+
+-- outer join은 join 테이블 on 을 기준으로 데이터를 보여준다 ..? 
+select * from emp left outer join dept on emp.deptno = dept.deptno;
+select * from emp right outer join dept on emp.deptno = dept.deptno;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
