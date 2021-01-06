@@ -215,7 +215,7 @@ select * from member01;
 
 
     
-    
+commit;
     
     
     
