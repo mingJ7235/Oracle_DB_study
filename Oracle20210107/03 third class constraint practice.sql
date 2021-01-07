@@ -67,11 +67,11 @@ alter table dept10
 --활성화 할때 : 부모테이블을 활성화하고 자식테이블을 활성화 해야한다. 
 --비활성화를 번거롭게하지 않기 위해서 cascade를 쓰는것임
 
---비활성화할때는 cascade사용가능 ! 
+--비활성화할때는 cascade사용가능 ! (disable)
 alter table dept10 
     disable constraint dept10_deptno_pk cascade; --cascade를 사용하면 바로 둘다 비활성화가 된다. 
 
---다시 활성화할때는 순서대로 활성화해야한다. 
+--다시 활성화할때는 순서대로 활성화해야한다. (enable)
 alter table dept10
     enable constraint dept10_deptno_pk; --활성화할때는 cascade를 사용할 수 없다. 
 alter table emp01

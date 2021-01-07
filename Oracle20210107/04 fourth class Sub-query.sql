@@ -101,9 +101,10 @@ select ename, sal from emp where sal < any (select sal from emp where deptno = 3
 --                     < any : 서브 쿼리 결과 중에서 최대값을 반환한다. 
 --                     > all : 서브 쿼리 결과 중에서 최대값을 반환한다. 
 --                     < all : 서브 쿼리 결과 중에서 최소값을 반환한다. 
---                     exist : 서브쿼리의 값이 있을 경우 메인쿼리를 수행한다.
+--                     exists : 서브쿼리의 값이 있을 경우 메인쿼리를 수행한다.
 --                     in : 서브쿼리의 결과와 같은 값을 찾는다. 
 
+--exists 연산자, not exists (서브쿼리가 존재하면 바로 메인쿼리를 수행하고 안하고 에관한 연산자)
+select * from dept where exists (select * from emp where deptno=10);
 
-
-
+select * from dept where not exists (select * from emp where deptno=180);
