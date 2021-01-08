@@ -57,27 +57,30 @@ select ename, deptno from emp
 ​
 
 7. '이문세'와 동일한 직급을 가진 사원을 출력하는 SQL문을 완성하시오.
+select * from emp where job = (select job from emp where ename = '이문세');
 
-​
 
 8. '이문세'의 급여와 동일하거나 더 많이 받는 사원명과 급여을 출력하는 SQL문을 완성하시오
-
+select ename, sal from emp where sal >= (select sal from emp where ename = '이문세');
 ​
-
 9. '인천'에서 근무하는 사원의 이름, 부서번호를 출력하는 SQL문을 완성하시오.
-
+select * from dept;
+select ename, empno from emp where deptno = (select deptno from dept where loc ='인천');
 ​
-
 10. 직속상관이 감우성인 사원의 이름과 급여을 출력하는 SQL문을 완성하시오
-
-​
+select * from emp;
+​select ename, sal, mgr from emp where mgr = (select empno from emp where ename='감우성')
 
 11. 부서별로 가장 급여를 많이 받는 사원의 정보(사원번호, 사원이름, 급여, 부서번호)를 출력하는 SQL문을 완성하시오.
-
-​
+​select empno, ename, sal, deptno from emp e 
+    where sal = (select max(sal) from emp where deptno = e.deptno)
+    order by deptno;
 
 12. 직급(JOB)이 과장인 사원이 속한 부서의 부서번호와 부서명, 지역을 출력하시오
-
+select * from dept where deptno in (select deptno from emp where job = '과장');
 ​
-
 13. 과장보다 급여을 많이 받은 사원들의 이름과 급여와 직급을 출력하되 과장은 출력하지 않는 SQL문을 완성하시오
+select ename, sal, job from emp where sal > all(select sal from emp where job = '과장') and job <> '과장';
+
+
+
