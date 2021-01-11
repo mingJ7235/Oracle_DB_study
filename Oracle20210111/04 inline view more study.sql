@@ -60,30 +60,72 @@ SELECT p.profno, p.name, d.dname FROM professor p
 	join department d 
 	ON p.deptno = d.deptno;
 
+SELECT * FROM v_prof_dept2;
+
 --4. inline view를 사용하여 student테이블과 departmant테이블을 사용하여 학과별로 학생들의 최대키와 최대 몸무게, 학과 이름을 출력하세요.
 
 SELECT * FROM student;
 SELECT* FROM DEPARTMENT ;
 
+CREATE OR REPLACE VIEW v_stu_dep_mhmw
+as
 SELECT  d.dname, s.mh, s.mw  FROM 
 	(SELECT deptno1, max(height) mh, max(weight) mw FROM student  GROUP BY deptno1) s
 	JOIN department d 
 	ON s.deptno1 = d.deptno;
 
+SELECT * FROM v_stu_dep_mhmw;
+
 --5. student테이블과 departmemt테이블을 사용하여 학과 이름, 학과별 최대키, 학과별로 가장 키가 큰 학생들의 이름과 키를 inline view를 사용하여 출력하세요.
 
-SELECT 
+SELECT s.deptno1, a.deptno1, d.deptno, d.dname, a.max_height, s.name, s.height
+FROM (SELECT deptno1, max(height) AS max_height FROM student GROUP BY deptno1) a,
+		department d, student s
+WHERE s.deptno1 = a.deptno1 AND s.height = a.max_height AND s.deptno1 = d.deptno;
 
 
+--6. student테이블에서 학생의 키가 동일 학년의 평균 키보다 큰 학생들의 학년과 이름 키, 해당 학년의 평균키를 출력하되 
+--inline view를 사용해서 출력하세요.(학년 컬럼으로 오름차순 정렬해서 출력하세요)
 
+SELECT s.grade, s.name, s.height, a.avg_height
+FROM (SELECT grade, avg(height) AS avg_height FROM student GROUP BY grade) a,
+			student s
+WHERE a.grade = s.grade AND s.height > a.avg_height
+ORDER BY 1;
+-- order by 안에 grade, a.grade, s.grade 다 됨 
+​
 
+--7. professor테이블을 조회하여 교수들의 급여 순위와 이름과 급여을 출력하시오. 단 급여 순위는 급여가 많은 사람부터 1~5위까지 출력하세요
 
+SELECT * FROM professor
 
+SELECT rownum AS ranking, name, pay
+FROM ( SELECT name, pay FROM professor ORDER BY 2 desc)
+WHERE 
+rownum <=5;
+rownum BETWEEN 1 AND 5;
 
+--8. 아래 화면과 같이 교수 테이블을 교수 번호로 정렬하되 3건씩 분리해서 급여 합계와 급여 평균을 출력하세요
 
+SELECT * FROM PROFESSOR ;
 
+--round는 반올림 
+SELECT profno, name, pay, sum(pay), round(avg(pay), 1) 
+FROM (SELECT profno, name, pay, rownum num FROM professor) 
+GROUP BY ceil(num/3), ROLLUP ((profno, name, pay, num))
+ORDER BY ceil(num/3);
 
+SELECT ceil(10.5) FROM dual; --ceil은 무조건 올림 함수
 
+SELECT ceil(11/3) FROM dual;
 
-
+--표준 집계 전체 행에 대하여 
+SELECT dname, job, count(*), sum(sal) FROM emp, DEPT 
+	WHERE dept.deptno = emp.deptno GROUP BY dname, job;
+--dname별로 모든 job의 subtotal을 낸것
+SELECT dname, job, count(*), sum(sal) FROM emp, DEPT 
+	WHERE dept.deptno = emp.deptno GROUP BY dname, job ORDER BY dname, job;
+--rollup의 인자별로 subtotal임.. 위에랑 차이가 null을 다 출력해주는것임 
+SELECT dname, job, count(*), sum(sal) FROM emp, DEPT 
+	WHERE dept.deptno = emp.deptno GROUP BY ROLLUP (dname, job);
 
