@@ -1,0 +1,90 @@
+관리자 sys로 접속
+
+show user : 접속한 유저를 보여주는 것임/. 현재 접속한 db의 사용자명.
+
+sys: 모든 권한을 가지고 있는 관리자 유저
+
+1. 권한 부여
+	1) 사용자 만들기
+	2) 권한이 있는 사용자가 권한이 없는 사용자에게 권한 부여
+	=> 즉 권한이 있는 사용자로 접속하여 해야한다. 
+
+2. 사용자 만들기
+create user tester1 identified by 1234;
+-> tester1이라는 계정을 1234 비밀번호를 주고 만들었다. 
+
+3. 사용자로 접속하기
+방법1) windows > sqlplus 유저이름 / 비밀번호
+방법2) sql > conn 유저이름 / 비밀번호;
+
+conn tester1 / 1234
+접속하려고했는데 권한이없어서 접속을 할수가 없다.
+
+4. 접속할 권한 부여
+주의 : 권한이 있는 사용자가 접속할 권한을 줘야한다.
+show user를 하면 
+SQL> show user;
+USER is ""
+user가 비어있다. 그래서 다시 sysdba로 접속해준다.
+SQL> conn / as sysdba
+
+이제 tester1에게 권한을 줘보자! (session 은 접속할 권한이다)
+grant create session to tester1
+=> grant create 권한내용 to 사용자명;
+
+이렇게되면 이제 tester1으로 접속이 가능하다. 
+SQL> conn tester1 /1234;
+Connected.
+SQL> show user;
+USER is "TESTER1"
+
+문) tester2 / 1234 생성하고 접속권한주기
+1. 다시 관리자계정으로 접속
+SQL> conn / as sysdba
+Connected.
+2. 사용자 생성
+SQL> create user tester2 identified by 1234;
+User created.
+3. 유저에게 접속권한주기
+SQL> grant create session to tester2;
+Grant succeeded.
+4. 생성된 tester2로 접속
+SQL> conn tester2 / 1234;
+Connected.
+5. 접속한 유저명 확인
+SQL> show user;
+USER is "TESTER2"
+
+
+※ 만일 유저네임 부분에 public을 사용하면 모든 사용자에게 해당 시스템 권한이 부여된다.
+ -> public이란 db내에 있는 모든 계정을 의미한다. 
+
+
+
+5. 테이블 만들기 권한 주기
+tester1한테 주기
+
+1. tester1으로 접속해서 테이블 만들기 시도해보자! 
+-> 오류가 나는지 확인 (권한이 없으면 오류나는지확인)
+
+SQL> conn tester1 /1234;
+Connected.
+SQL> create table emp (empno number(4), ename varchar2(10));
+ERROR at line 1:
+ORA-01031: insufficient privileges
+-> 충분하지 않은 권한! 이라는 오류가 뜸
+
+2. 관리자 계정에서 테이블 만들기 권한주기 
+
+SQL> conn / as sysdba
+Connected.
+
+SQL> show user;
+USER is "SYS"
+
+SQL> grant create table to tester1;
+Grant succeeded.
+
+3. tester1에서 테이블 만들어보기
+
+
