@@ -252,9 +252,35 @@ ORA-01031: insufficient privileges
 그러므로 권한을 주고! 스키마명으로 지정하여 조회해줘야한다. 
 
 
+11. 자 그럼 이번엔 tester2에서 tester1.dept01에 삽입을해보자
 
+SQL> show user;
+USER is "TESTER2"
 
+SQL> insert into dept01 values (11,'p');
+insert into dept01 values (11,'p')
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
 
+SQL> insert into tester1.dept01 values (11,'p');
+insert into tester1.dept01 values (11,'p')
+                    *
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+=> 스키마를 써도 삽입이안된다 왜? 권한이없엉!
+
+삽입할 수 있는 권한을 줘야한다! 
+
+SQL> grant insert on dept01 to tester2;
+Grant succeeded.
+	=> 삽입할 수 있는 권한 부여!
+SQL> conn tester2 /1234;
+Connected.
+SQL> insert into tester1.dept01 values (11,'p');
+1 row created.
+	=> 이제 tester2에서 삽입을 할 수 있다!
 
 
 
