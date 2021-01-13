@@ -344,6 +344,65 @@ SQL> REVOKE SELECT ON DEPT01 FROM TESTER2;
 Revoke succeeded.
 => TESTER1에서 접속하여 REVOKE하니까 REVOKE가 된다!
 
+모든 권한 가진 SYS에서는 GRANT, REVOKE가 다 된다. 
+SQL> GRANT SELECT ON TESTER1.DEPT01 TO TESTER2;
+Grant succeeded.
+
+SQL> REVOKE SELECT ON TESTER1.DEPT01 FROM TESTER2;
+Revoke succeeded.
+
+13. 철회하는 권한 주기 
+
+
+14. 롤(ROLE) 을 사용한 권한 부여
+롤 : 권한들을 묶어 놓은 것이다. 
+
+※사전 정의된 롤의 종류-> 2가지가 미리 정해진 ROLE이있음
+	1) CONNECT 롤
+	: 사용자가 DB에 접속 가능하도록 하기 위해 가장 기본적인 시스템 권한 8가지를 묶은것
+
+	2) RESOURCE 롤
+
+문) TESTER5에게 관리자 역할 부여하기
+GRANT CONNECT, RESOURCE DBA TO TESTER5;
+
+문) 사용자에게 부여된 역할을 확ㅇ니하기
+SELECT * FROM DICT WHERE TABLE_NAME LIKE '%ROLE%';
+
+15.관리자가 역할을 해당 부서에 맞게 만들기, 해당 직급에 맞게 만들기
+
+사용자 정의 역할 내용 만들기
+
+1단계 > 역할을 만든다.
+	CREATE ROLE MROLE;
+2단계 > 역할에 권한을 부여한다. 
+	GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW TO MROLE;
+	=> TO다음에 ROLE이름을 스면 그 역할에 권한이 부여되는것이다. 
+3단계 > 사용자에게 MROLE을 부여한다. (TESTER6에게 역할부여)
+	GRANT MROLE TO TESTER6;
+	
+※테이블 만드는 권한 주는법(테이블만들기 하기위해서 줘야함)
+TABLESPACE를 세팅해줘야하므로 이렇게 해야한다... ! 
+SQL> ALTER USER TESTER6 QUOTA 100M ON USERS;
+User altered.
+
+SQL> GRANT UNLIMITED TABLESPACE TO TESTER6;
+Grant succeeded.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
