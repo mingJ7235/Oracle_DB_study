@@ -284,7 +284,65 @@ SQL> insert into tester1.dept01 values (11,'p');
 
 
 
+12. 사용자에게서 권한을 뺏기 위한 revoke 명령어
+사용자에게 부여한 객체 권한을 데이터베이스 관리자나 객체 소유자로부터 
+철회하기 위해서는 REVOKE 명령어를 사용해야한다. 
 
+1) 권한을 부여했던 계정으로 가서 해야한다.
+SQL> show user;
+USER is "TESTER1"
+
+2) TESTER2로부터 DEPT01 테이블을 SELECT하는 권한을 뺏는것임
+SQL> REVOKE SELECT ON DEPT01 FROM TESTER2;
+Revoke succeeded.
+
+3) 권한을 뺏었는지 확인하기위해 TESTER2로 접속
+SQL> CONN TESTER2 / 1234
+Connected.
+
+4) SELECT해보니까 오오 에러남 권한부족!
+SQL> SELECT * FROM TESTER1.DEPT01;
+SELECT * FROM TESTER1.DEPT01
+                      
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+5) TESTER2의 권한이 있는지 확인 
+SQL> CONN TESTER2 /1234
+Connected.
+SQL> SELECT * FROM USER_TAB_PRIVS_RECD;
+
+no rows selected
+=>TESTER2가 받은권한이 없다고 나온다!
+
+6) TESTER1가 준 권한이 있는지 확인
+SQL> CONN TESTER1 /1234
+Connected.
+SQL> SELECT * FROM USER_TAB_PRIVS_MADE;
+
+no rows selected
+=> TESTER1가 준 권한이 없다고 나온다!
+
+7) 이번에는 더 상위계정인 SYS로 가서 REVOKE를 시도 
+(사전에 TESTER1에서 다시 TESTER2에게 권한을 주고 시도)
+7-1) SYS로 이동
+SQL> CONN / AS SYSDBA;
+Connected.
+7-2) REVOKE시도 
+SQL> REVOKE SELECT ON DEPT01 FROM TESTER2;
+REVOKE SELECT ON DEPT01 FROM TESTER2
+                 *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+=> 실패! 
+=> 결론!! : 권한을 준 계정에서 REVOKE를 해야한다!
+
+SQL> CONN TESTER1 /1234
+Connected.
+SQL> REVOKE SELECT ON DEPT01 FROM TESTER2;
+
+Revoke succeeded.
+=> TESTER1에서 접속하여 REVOKE하니까 REVOKE가 된다!
 
 
 
