@@ -64,7 +64,7 @@ USER is "TESTER2"
 5. 테이블 만들기 권한 주기
 tester1한테 주기
 
-1. tester1으로 접속해서 테이블 만들기 시도해보자! 
+1) tester1으로 접속해서 테이블 만들기 시도해보자! 
 -> 오류가 나는지 확인 (권한이 없으면 오류나는지확인)
 
 SQL> conn tester1 /1234;
@@ -74,7 +74,7 @@ ERROR at line 1:
 ORA-01031: insufficient privileges
 -> 충분하지 않은 권한! 이라는 오류가 뜸
 
-2. 관리자 계정에서 테이블 만들기 권한주기 
+2) 관리자 계정에서 테이블 만들기 권한주기 
 
 SQL> conn / as sysdba
 Connected.
@@ -85,6 +85,181 @@ USER is "SYS"
 SQL> grant create table to tester1;
 Grant succeeded.
 
-3. tester1에서 테이블 만들어보기
+3) tester1에서 테이블 만들어보기
+ERROR at line 1:
+ORA-01950: no privileges on tablespace 'SYSTEM'
+
+에러가 났다 'ㅁ';
+이유? 권한이 아직 부족하다!!! 권한을 더줘야함
+
+SQL> conn / as sysdba
+Connected.
+
+SQL> alter user tester1 quota 100m on users;
+User altered.
+
+SQL> grant unlimited tablespace to tester1;
+Grant succeeded.
+
+SQL> conn tester1 / 1234
+Connected.
+
+SQL> create table emp (empno number(4), ename varchar2(10));
+Table created.
+
+-> 테이블이 생성되었다. 'ㅁ';/
+
+
+6. create view하기. tester1에게 권한 주기
+sysdba로 접속하기
+SQL> conn / as sysdba
+Connected.
+
+권한주기
+SQL> grant create view to tester1;
+Grant succeeded.
+
+tester1로 접속하기
+SQL> conn tester1 / 1234;
+Connected.
+
+create view 명령주기
+SQL> create view emp_empno_view as select ename from emp;
+View created.
+
+
+7. tester2
+tester1의 권한을 그대로 주기
+
+1) sysdba에 받아오기
+2) tester1에 받아오기
+
+tester1 이 sysdba에 권한을 받을 때 with admin option 을 붙이면
+다른 사용자에게도 권한을 줄 수 있다. 
+
+실습 ) tester1 이 tester2에게 권한을 주기 -> 권한 전달이 안된다.
+SQL> grant create table to tester2;
+grant create table to tester2
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges
+-> 전달안댐!
+
+실습 ) sysdba가 tester1에게 권한을 줄때 with admin option 권한을 부여받고
+	tester1이 tester2권한을 주기 -> 권한 전달됨
+SQL> conn / as sysdba;
+Connected.
+SQL> grant create table, create view to tester1 with admin option;
+Grant succeeded.
+
+-> tester1이 admin 권한을 받은 것이다.
+
+SQL> conn tester1 / 1234
+Connected.
+SQL> grant create table to tester2;
+Grant succeeded
+
+오 이제 권한을 tester1이 tester2에게 줄수있다!
+
+8. 모든 사용자에게 권한을 부여하기
+tester1, tester2 
+
+SQL> grant create sequence, create procedure, 
+drop any table to public with admin option;
+
+Grant succeeded.
+
+9. 현재 계정이 부여받은 권한의 내용을 확인하는 법
+select * from user_tab_privs_recd;
+
+[롤 관련 데이터 사전]
+
+[Dictionary View]                          [Table]
+------------------------               -------------------------------------------------------
+ROLE_SYS_PRIVS                         ROLE에 부여된 시스템 권한
+ROLE_TAB_PRIVS                         ROLE에 부여된 테이블 권한
+USER_ROLE_PRIVS                       현재 사용자가 ACCESS할 수 있는 ROLE
+USER_TAB_PRIVS_MADE               현재 사용자의 객체에 부여한 객체 권한
+USER_TAB_PRIVS_RECD               현재 사용자의 객체에 부여된 객체 권한
+USER_COL_PRIVS_MADE              현재 사용자 객체의 특정 컬럼에 부여한 객체 권한
+USER_COL_PRIVS_RECD               현재 사용자 객체의 특정 컬럼에 부여된 객체 권한
+
+10. 사용자1 - 다양한 테이블
+사용자2 가 사용자1의 테이블을 검색하고 싶을때.
+=> 사용자1이 허락을 해주는 것임. 0> 객체권한!! 이게 객체권한이다.
+
+사용자1의 테이블 -> 사용자2가 사용하고싶음!!
+
+이럴때 사용자1이 권한을 준다!
+(Tester1 의 dept01테이블을 tester2에서 확인하고싶은것임)
+
+1) 일단 검색안되는거 해보자
+
+SQL> select * from dept01;
+select * from dept01
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+=> 당연히 검색안댐. 왜? tester1의 꺼니깐 !
+
+2) 자 그러면 권한을 부여해보자.
+SQL> conn tester1 /1234;
+Connected.
+SQL> grant select on dept01 to tester2;
+Grant succeeded.
+-> dept01을 셀렉할수있는 권한
+
+3) 다시 이제 tester2로와서 조회해보자
+SQL> conn tester2 /1234;
+Connected.
+SQL> select * from dept01;
+select * from dept01
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+띠용...안된다.. 왜?...
+
+----여기서 스키마 개념의 두두둥장!!----
+
+스키마란? : 객체(테이블, 뷰, 시퀀스등)을 소유한 사용자명을 말한다. 
+보통은 스키마와 사용자 라는 두개의 단어를 혼용하여 사용한다. 
+
+그러므로!
+SQL> select * from tester1.dept01;
+
+이렇게하면 즉, 스키마명인 tester1를 지정해주고 조회해주면 
+-> tester1.dept01 로 지정하여 조회해주면 조회가된다.!
+select * from 스키마명.테이블명;
+
+※ 만약 셀렉할수있는 권한을 주지않은 테이블을 tester2에서 조회하려면?
+SQL> conn tester1 / 1234;
+Connected.
+SQL> create table dept02 (depno number(4));
+
+Table created.
+
+SQL> conn tester2 /1234;
+Connected.
+SQL> select * from tester1.dept02;
+select * from tester1.dept02
+                      *
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+==> 조회되지 않는다!! 스키마명으로 지정해줘도 되지않는다!
+그러므로 권한을 주고! 스키마명으로 지정하여 조회해줘야한다. 
+
+
+
+
+
+
+
+
+
+
+
 
 
