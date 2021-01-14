@@ -1,0 +1,44 @@
+1.TESTER1에게 롤을 회수하기
+위치 : 롤을 부여했던 사용자
+REVOKE ROLE1 FROM TESTER1;
+
+2. 롤을 제거하기
+위치: 롤을 만든 사용자
+DROP ROLE ROLE1;
+
+3. 롤의 장점
+여러 사용자들에게 동일한 역할을 부여하기 편리하다. 
+
+4. 동의어
+동의어 (SYNONYM) : 다른 데이터 베이스 객체에 대한 별명.
+	즉, DB에서는 여러 사용자들이 테이블을 서로 공유하는데
+	다른 사용자의 테이블을 접근할 때 [사용자명.테이블명]으로 표현하는데,
+	이를 동의어를 적용하면 간단하게 요약해서 기술할 수 있다. 
+예)
+TESTER1.DEPT를 TD로 줄이는 것.
+즉 별명을 주는것
+
+SQL> CONN TESTER1 /1234;
+Connected.
+SQL> CREATE SYNONYM PS FOR SYS.SYSTBL;
+CREATE SYNONYM PS FOR SYS.SYSTBL
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+-> 권한이없다고나옴 동의어 만들수있는 권한을 받아야한다. 
+
+SYS로 접속하여 TESTER1에게 SYNONYM을 줄 권한주기
+SQL> CONN / AS SYSDBA;
+Connected.
+SQL> GRANT CREATE SYNONYM TO TESTER1;
+Grant succeeded.
+
+SQL> CONN TESTER1 / 1234;
+Connected.
+SQL> CREATE SYNONYM PS FOR SYS.SYSTBL;
+Synonym created.
+
+
+==> TESTER1에서 PS라는 동의어를 주었다. 
+
