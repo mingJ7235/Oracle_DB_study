@@ -13,6 +13,7 @@ WHERE job = '사원' ;
 --emp테이블에 데이터 2개를 입력하시오
 INSERT INTO emp (empno, deptno, ename, sal) VALUES (1000, 10, '이경자', 3000);
 INSERT INTO emp (empno, deptno, ename, sal) VALUES (2000, 10, '최병민', 4000);
+SELECT * FROM EMP;
 
 --문 3
 --emp테이블에서 모든 사람들의 sal을 10%씩 인상하세요.
