@@ -1,3 +1,4 @@
+
 CREATE USER localkakao IDENTIFIED BY kakao;
 
 GRANT CONNECT, resource TO localkakao;
@@ -17,6 +18,7 @@ INSERT INTO kakaouser VALUES (user_seq.NEXTVAL, '01022222222', '홍아현', '123
 --kakaouser테이블 확인
 SELECT * FROM KAKAOUSER ;
 
+SELECT * FROM CHATROOM ;
 
 --채팅룸 테이블 생성
 CREATE TABLE chatroom (
@@ -51,6 +53,7 @@ CREATE TABLE user_data(
    CONSTRAINT user_data_FK FOREIGN KEY (user_num) REFERENCES kakaouser(user_num)
 );
 
+SELECT * FROM chatmessage;
 
 <꼭 개인DB에서 추가하고 테스트할것>
 
@@ -60,4 +63,9 @@ ALTER TABLE chatroom add (lastLogOn_user2 DATE);
 UPDATE chatroom SET lastlogon_user1 = sysdate ;
 UPDATE chatroom SET lastlogon_user2 = sysdate ;
 
+
+TRUNCATE TABLE kakaouser;
+
+
+DELETE FROM KAKAOUSER WHERE name = '김정아';
 
