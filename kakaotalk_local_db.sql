@@ -50,3 +50,14 @@ CREATE TABLE user_data(
    user_image blob DEFAULT empty_blob(),
    CONSTRAINT user_data_FK FOREIGN KEY (user_num) REFERENCES kakaouser(user_num)
 );
+
+
+<꼭 개인DB에서 추가하고 테스트할것>
+
+ALTER TABLE chatroom add (lastLogOn_user1 DATE);
+ALTER TABLE chatroom add (lastLogOn_user2 DATE);
+
+UPDATE chatroom SET lastlogon_user1 = sysdate ;
+UPDATE chatroom SET lastlogon_user2 = sysdate ;
+
+
